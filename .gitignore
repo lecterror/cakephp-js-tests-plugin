@@ -1,0 +1,6 @@
+tests/data/js_instrumented/jscoverage*
+tests/data/js_instrumented/*.js
+tests/data/js_instrumented/*.html
+tests/data/js_instrumented/tests/*.js
+tests/data/js_instrumented/tests/*.html
+
