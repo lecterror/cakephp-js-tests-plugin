@@ -10,9 +10,9 @@ Configure::write
 				'dir' => array
 				(
 					'normal_root'			=> JS,
-					'normal_tests'			=> JS.'tests/',
-					'instrumented_root'		=> WWW_ROOT.'js_instrumented/',
-					'instrumented_tests'	=> WWW_ROOT.'js_instrumented/tests/'
+					'normal_tests'			=> JS.'tests'.DS,
+					'instrumented_root'		=> WWW_ROOT.'js_instrumented'.DS,
+					'instrumented_tests'	=> WWW_ROOT.'js_instrumented'.DS.'tests'.DS
 				),
 				'url' => array
 				(
