@@ -29,7 +29,7 @@ Configure::write
 				),
 				'instrumentation' => array
 				(
-					'noInstrument'		=> array('tests'/*, 'jquery'*/),
+					'noInstrument'		=> array('tests', 'qunit'),
 					'exclude'			=> array('.svn'),
 				),
 			),
