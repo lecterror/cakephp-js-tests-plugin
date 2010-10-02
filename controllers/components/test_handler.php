@@ -66,7 +66,7 @@ class TestHandlerComponent extends Object
 					}
 				}
 
-				$lastInstrumentedModification = filemtime($testFullPath);
+				$lastInstrumentedModification = filemtime($this->_tests[$profileName][$testName]['instrumentedTestPath']);
 
 				foreach ($instrumentedRelatedTestFiles as $testFile)
 				{
