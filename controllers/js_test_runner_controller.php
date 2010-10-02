@@ -8,14 +8,17 @@ class JsTestRunnerController extends JsTestsAppController
 
 	function index()
 	{
-		$tests = $this->TestHandler->loadTests($this->activeProfile, $this->activeProfileData);
-		debug($tests);
+		$passed = $this->TestHandler->checkProfile($this->activeProfileData);
 
-		$passed = $this->TestHandler->checkProfile(Configure::read('JsTests.Profiles.default'));
-		debug($passed);
-		$passed = $this->TestHandler->checkProfile(Configure::read('JsTests.Profiles.invalid'));
-		debug($passed);
+		if (!$passed)
+		{
+			$tests = array();
+		}
+		else
+		{
+			$tests = $this->TestHandler->loadTests($this->activeProfile, $this->activeProfileData);
+		}
 
-		$this->set('activeProfileData', $this->activeProfileData);
+		$this->set(compact('activeProfileData', 'tests'));
 	}
 }
