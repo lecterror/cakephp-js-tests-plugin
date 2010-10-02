@@ -36,13 +36,25 @@
 		.test-results {float: left; width: 67%;}
 		form div {margin-bottom: 0px !important;}
 
-		.active-test
+		.active-test,
+		.available-profiles
 		{
 			background-color: #e3f2e1;
 			margin-top: 10px;
 			padding: 10px;
 			-moz-border-radius: 7px;
 			-moz-box-shadow: 3px 3px 4px;
+		}
+
+		.available-profiles ul
+		{
+			margin-top: 10px;
+			padding: 2px;
+		}
+
+		.available-profiles a
+		{
+			font-size: medium;
 		}
 
 		.instrumentation-message

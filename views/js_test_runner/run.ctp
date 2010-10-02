@@ -37,6 +37,20 @@
 			?>
 		</div>
 		<?php endif; ?>
+		<div class="available-profiles">
+			<div>Available test profiles:</div>
+			<ul>
+			<?php foreach ($availableProfiles as $availableName => $availableCheckPassed): ?>
+				<li>
+				<?php if ($availableCheckPassed): ?>
+					<?php echo $this->Html->link($availableName, array('profile' => $availableName)); ?>
+				<?php else: ?>
+					<span style="color: #ababab;"><?php echo $availableName; ?></span> [configuration error]
+				<?php endif; ?>
+				</li>
+			<?php endforeach; ?>
+			</ul>
+		</div>
 	</div>
 	<div class="test-results">
 		<table class="tests-table">

@@ -19,9 +19,17 @@ class JsTestRunnerController extends JsTestsAppController
 			$tests = $this->TestHandler->loadTests($this->activeProfileName, $this->activeProfileData);
 		}
 
+		$allProfiles = Configure::read('JsTests.Profiles');
+		$availableProfiles = array();
+
+		foreach ($allProfiles as $profileName => $profileData)
+		{
+			$availableProfiles[$profileName] = $this->TestHandler->checkProfile($profileData);
+		}
+
 		$this->set('activeProfileName', $this->activeProfileName);
 		$this->set('activeProfileData', $this->activeProfileData);
-		$this->set(compact('tests'));
+		$this->set(compact('tests', 'availableProfiles'));
 	}
 
 	function instrument()
