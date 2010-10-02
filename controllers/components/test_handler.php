@@ -95,19 +95,31 @@ class TestHandlerComponent extends Object
 	{
 		$passed = true;
 
-		if (!Set::check($profileData, 'dir.normal_root'))
-		{
-			trigger_error('Normal root dir not set - you will not be able to run instrumentation!');
-			$passed = false;
-		}
+		$checks = array
+			(
+				'dir.normal_root'				=> 'Normal root dir not set - you will not be able to run instrumentation!',
+				'dir.normal_tests'				=> 'Normal test dir not set - no tests will be detected!',
+				'dir.instrumented_root'			=> 'Instrumented root dir not set - instrumentation may not be possible!',
+				'dir.instrumented_tests'		=> 'Instrumented test dir not set - instrumentation may not be possible!',
+				'url.normal_root'				=> 'Normal root URL not set - you will not be able to run instrumentation!',
+				'url.normal_tests'				=> 'Normal test URL not set - no tests will be detected!',
+				'url.instrumented_root'			=> 'Instrumented root URL not set - instrumentation may not be possible!',
+				'url.instrumented_tests'		=> 'Instrumented test URL not set - instrumentation may not be possible!',
+				'params.tests'					=> 'Main test param not set - tests will not be detected!',
+				'params.name'					=> 'Test name detection regex not set - tests might not work properly!',
+				'params.files'					=> 'Related test file patterns not set - additional test files will not be checked for instrumentation!',
+				'instrumentation.noInstrument'	=> 'Instrumentation exceptions not set - this can be empty but you may see invalid code coverage!',
+				'instrumentation.exclude'		=> 'Instrumentation excludes not set - if not used this can be left empty but it must exist!',
+			);
 
-		if (!Set::check($profileData, 'dir.normal_tests'))
+		foreach ($checks as $key => $error)
 		{
-			trigger_error('Normal test dir not set - no tests will be detected!');
-			$passed = false;
+			if (!Set::check($profileData, $key))
+			{
+				trigger_error($error);
+				$passed = false;
+			}
 		}
-
-		// @todo: continue testing
 
 		return $passed;
 	}
