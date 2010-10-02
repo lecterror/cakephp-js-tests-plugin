@@ -6,7 +6,7 @@ class JsTestRunnerController extends JsTestsAppController
 	var $uses = array();
 	var $components = array('RequestHandler', 'TestHandler');
 
-	function index()
+	function run()
 	{
 		$passed = $this->TestHandler->checkProfile($this->activeProfileData);
 
