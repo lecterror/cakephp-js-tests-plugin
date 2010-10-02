@@ -12,6 +12,20 @@ class JsTestsAppController extends AppController
 	{
 		parent::beforeFilter();
 
+		if (isset($this->passedArgs['profile']))
+		{
+			$exists = Set::check(Configure::read('JsTests.Profiles'), sprintf('%s', $this->passedArgs['profile']));
+
+			if (!$exists)
+			{
+				trigger_error(sprintf('Profile "%s" does not exist!', $this->passedArgs['profile']));
+			}
+			else
+			{
+				Configure::write('JsTests.ActiveProfile', $this->passedArgs['profile']);
+			}
+		}
+
 		$this->activeProfile = Configure::read('JsTests.ActiveProfile');
 		$this->activeProfileData = Configure::read(sprintf('JsTests.Profiles.%s', $this->activeProfile));
 
