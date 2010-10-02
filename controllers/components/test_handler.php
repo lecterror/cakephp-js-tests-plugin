@@ -84,14 +84,21 @@ class TestHandlerComponent extends Object
 			$instrumentedTestFileURL = Router::url($profileData['url']['instrumented_tests'].$testMainFileName);
 			$instrumentedTestURL = sprintf('%s%s?u=%s', $profileData['url']['instrumented_root'], 'jscoverage.html', $instrumentedTestFileURL);
 
-			$this->_tests[$profileName][$testName]['normalTestURL'] = Router::url($profileData['url']['normal_tests'].$testMainFileName);
-			$this->_tests[$profileName][$testName]['instrumentedTestURL'] = Router::url($instrumentedTestURL);
+			$this->_tests[$profileName][$testName]['normalTestUrl'] = Router::url($profileData['url']['normal_tests'].$testMainFileName);
+			$this->_tests[$profileName][$testName]['instrumentedTestUrl'] = Router::url($instrumentedTestURL);
 		}
 
 		return $this->_tests[$profileName];
 	}
 
-	function checkProfile($profileData)
+	/**
+	 * Checks profile data for any errors, should be called before invoking a test profile
+	 * to make sure everything is configured properly.
+	 *
+	 * @param array $profileData
+	 * @return bool True if the profile data is correct, false if any setting is missing.
+	 */
+	function checkProfile($profileData, $verbose = false)
 	{
 		$passed = true;
 
@@ -116,11 +123,68 @@ class TestHandlerComponent extends Object
 		{
 			if (!Set::check($profileData, $key))
 			{
-				trigger_error($error);
+				if ($verbose == true)
+				{
+					trigger_error($error);
+				}
+
 				$passed = false;
 			}
 		}
 
 		return $passed;
+	}
+
+	/**
+	 * Run instrumentation for a test profile.
+	 *
+	 * @param array $profileData
+	 */
+	function instrument($profileData)
+	{
+		$jsbin = Configure::read('JsTests.JSCoverage.executable');
+
+		if (!file_exists($jsbin))
+		{
+			trigger_error('JSCoverage executable not found!');
+			return;
+		}
+
+		$noInstrument = array();
+		$exclude = array();
+
+		foreach ($profileData['instrumentation']['noInstrument'] as $item)
+		{
+			$noInstrument[] = sprintf('--no-instrument="%s"', $item);
+		}
+
+		foreach ($profileData['instrumentation']['exclude'] as $item)
+		{
+			$exclude[] = sprintf('--exclude="%s"', $item);
+		}
+
+		$sourceDir = $profileData['dir']['normal_root'];
+		$targetDir = $profileData['dir']['instrumented_root'];
+
+		$command = sprintf
+			(
+				'%s -v %s %s "%s" "%s"',
+				$jsbin,
+				join(' ', $noInstrument),
+				join(' ', $exclude),
+				$sourceDir,
+				$targetDir
+			);
+
+		$output = array();
+		$exitCode = null;
+
+
+		if (!defined('CAKEPHP_UNIT_TEST_EXECUTION'))
+		{
+			exec($command, $output, $exitCode);
+		}
+
+		return array('output' => $output, 'exitCode' => $exitCode);
 	}
 }
