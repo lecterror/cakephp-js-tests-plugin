@@ -13,6 +13,103 @@
 
 		echo $scripts_for_layout;
 	?>
+	<script type="text/javascript">
+		function toggleJsCoverage()
+		{
+			var elem = document.getElementById('jscoverage-output');
+
+			if (elem.style.display == 'block')
+			{
+				elem.style.display = 'none';
+			}
+			else
+			{
+				elem.style.display = 'block';
+			}
+		}
+	</script>
+	<style type="text/css">
+		h3 {font-size: 170%; padding-top: 1em}
+		a {font-size: 120%}
+		li {line-height: 140%}
+		.test-menu {float: left; margin-right: 24px; width: 400px;}
+		.test-results {float: left; width: 67%;}
+		form div {margin-bottom: 0px !important;}
+
+		.active-test
+		{
+			background-color: #e3f2e1;
+			margin-top: 10px;
+			padding: 10px;
+			-moz-border-radius: 7px;
+			-moz-box-shadow: 3px 3px 4px;
+		}
+
+		.instrumentation-message
+		{
+			background-color: #eed0d0;
+			margin-top: 10px;
+			padding: 10px;
+			text-align: center;
+			-moz-border-radius: 7px;
+			-moz-box-shadow: 3px 3px 4px;
+		}
+
+		.no-tests-message
+		{
+			text-align: center;
+		}
+
+		.tests-table
+		{
+			width: 100%;
+			margin-top: 10px;
+			background-color: #e3f2e1;
+			-moz-border-radius: 7px;
+			-moz-box-shadow: 3px 3px 4px;
+			-webkit-box-shadow: 0px 2px 13px #999;
+		}
+
+		.tests-table th
+		{
+			font-weight: bold;
+			text-align: center;
+		}
+
+		.tests-table tbody td
+		{
+			font-weight: normal;
+			text-align: center;
+		}
+
+		.tests-table tfoot td
+		{
+			background-color: #e3f2e1;
+			text-align: center;
+			font-weight: bold;
+		}
+
+		.tests-table td.test-name,
+		.tests-table th.test-name
+		{
+			text-align: left;
+		}
+
+		.ok { color:#FFFFFF !important; background-color:#BFFFBF !important; }
+		.fail { color:#FFFFFF !important; background-color:#CC0000 !important; }
+		.warn { color:#000000 !important; background-color:#FFFF88 !important; }
+
+		#jscoverage-output
+		{
+			font-family: "DejaVu Sans Mono", "Courier New", monospace;
+			display: none;
+		}
+
+		#toggle-jscoverage-output
+		{
+			font-size: large;
+		}
+	</style>
 </head>
 <body>
 	<div id="container">
@@ -22,6 +119,42 @@
 		<div id="content">
 
 			<?php echo $this->Session->flash(); ?>
+
+			<?php
+			$jscoverageOutput = $this->Session->read('JSCoverage.output');
+
+			if (!empty($jscoverageOutput))
+			{
+				$jscoverageOutput = unserialize($jscoverageOutput);
+				$this->Session->delete('JSCoverage.output');
+				?>
+				<script type="text/javascript">
+					var flash = document.getElementById('flashMessage');
+
+					var link = document.createElement('a');
+					link.id = 'toggle-jscoverage-output';
+					link.setAttribute('href', '#');
+					link.onclick = function() { toggleJsCoverage(); return false; };
+					link.innerHTML = '[View output]';
+
+					var spacer = document.createElement('div');
+					spacer.style.display = 'inline';
+					spacer.innerHTML = '&nbsp;&nbsp;';
+
+					if (flash)
+					{
+						flash.appendChild(spacer);
+						flash.appendChild(link);
+					}
+				</script>
+				<div id="jscoverage-output" class="notice">
+				<?php foreach ($jscoverageOutput as $line): ?>
+					<?php echo $line; ?><br />
+				<?php endforeach; ?>
+				</div>
+				<?php
+			}
+			?>
 
 			<?php echo $content_for_layout; ?>
 

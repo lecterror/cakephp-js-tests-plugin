@@ -180,6 +180,10 @@ class TestHandlerComponent extends Object
 		$output = array();
 		$exitCode = null;
 
+		if (DIRECTORY_SEPARATOR != '\\')
+		{
+			$command = $command.' 2>&1';
+		}
 
 		if (!defined('CAKEPHP_UNIT_TEST_EXECUTION'))
 		{
