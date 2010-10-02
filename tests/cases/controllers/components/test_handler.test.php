@@ -106,8 +106,9 @@ class TestRunnerTestCase extends CakeTestCase
 			);
 
 		$result = $component->loadTests('default', $testData);
+		$diff = (Set::diff($result, $expected));
 
-		$this->assertEqual($result, $expected);
+		$this->assertTrue(empty($diff));
 	}
 
 	function testCheckProfile()
