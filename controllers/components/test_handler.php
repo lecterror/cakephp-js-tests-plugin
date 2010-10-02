@@ -81,10 +81,10 @@ class TestHandlerComponent extends Object
 			}
 
 			// finally, generate URLs
-			$instrumentedTestFileURL = Router::url($profileData['url']['instrumented_tests'].$testMainFileName);
+			$instrumentedTestFileURL = Router::url('/').$profileData['url']['instrumented_tests'].$testMainFileName;
 			$instrumentedTestURL = sprintf('%s%s?u=%s', $profileData['url']['instrumented_root'], 'jscoverage.html', $instrumentedTestFileURL);
 
-			$this->_tests[$profileName][$testName]['normalTestUrl'] = Router::url($profileData['url']['normal_tests'].$testMainFileName);
+			$this->_tests[$profileName][$testName]['normalTestUrl'] = Router::url('/').$profileData['url']['normal_tests'].$testMainFileName;
 			$this->_tests[$profileName][$testName]['instrumentedTestUrl'] = Router::url($instrumentedTestURL);
 		}
 
