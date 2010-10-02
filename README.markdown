@@ -2,18 +2,18 @@
 
 ## About ##
 
-JsTests is a [CakePHP][] plugin which tries to make it is for you to make unit tests for your
+JsTests is a [CakePHP][] plugin which tries to make it easy for you to run unit tests for your
 JavaScript code. It uses [QUnit][] and [JSCoverage][] to test JavaScript files and provide
 code coverage.
 
 ## Usage ##
 
-First, obtain the plugin. If you're using Git, while in your app folder:
+First, obtain the plugin. If you're using Git, run this while in your app folder:
 
 	git submodule add git://github.com/lecterror/cakephp-js-tests-plugin.git plugins/js_tests
 
-Or visit http://github.com/lecterror/cakephp-js-tests-plugin and download the plugin manually
-to your `app/plugins/js_tests/` folder
+Or visit [http://github.com/lecterror/cakephp-js-tests-plugin][github-repo] and download the
+plugin manually to your `app/plugins/js_tests/` folder.
 
 Next, make sure you have [JSCoverage][] somewhere on your system. On Ubuntu this is as simple as:
 
@@ -33,7 +33,7 @@ which says:
 
 and change the path to JSCoverage executable on your system.
 
-Now, you should be ready to open the tests in your browser:
+You should now be ready to open the tests in your browser:
 
 	[your app root]/js_tests/js_test_runner/run
 
@@ -73,3 +73,4 @@ Why, [GPL][] of course.
 [Vim]: http://www.vim.org/ "The Editor"
 [QUnit]: http://docs.jquery.com/Qunit
 [GPL]: http://www.gnu.org/licenses/gpl.html
+[github-repo]: http://github.com/lecterror/cakephp-js-tests-plugin
