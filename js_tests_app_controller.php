@@ -5,7 +5,7 @@ App::import('Core', 'Set');
 
 class JsTestsAppController extends AppController
 {
-	var $activeProfile = null;
+	var $activeProfileName = null;
 	var $activeProfileData = null;
 
 	function beforeFilter()
@@ -26,8 +26,8 @@ class JsTestsAppController extends AppController
 			}
 		}
 
-		$this->activeProfile = Configure::read('JsTests.ActiveProfile');
-		$this->activeProfileData = Configure::read(sprintf('JsTests.Profiles.%s', $this->activeProfile));
+		$this->activeProfileName = Configure::read('JsTests.ActiveProfile');
+		$this->activeProfileData = Configure::read(sprintf('JsTests.Profiles.%s', $this->activeProfileName));
 
 		if (empty($this->activeProfileData))
 		{

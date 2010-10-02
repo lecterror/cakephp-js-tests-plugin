@@ -16,9 +16,11 @@ class JsTestRunnerController extends JsTestsAppController
 		}
 		else
 		{
-			$tests = $this->TestHandler->loadTests($this->activeProfile, $this->activeProfileData);
+			$tests = $this->TestHandler->loadTests($this->activeProfileName, $this->activeProfileData);
 		}
 
-		$this->set(compact('activeProfileData', 'tests'));
+		$this->set('activeProfileName', $this->activeProfileName);
+		$this->set('activeProfileData', $this->activeProfileData);
+		$this->set(compact('tests'));
 	}
 }
