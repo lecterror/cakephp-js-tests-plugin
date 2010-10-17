@@ -12,7 +12,7 @@ First, obtain the plugin. If you're using Git, run this while in your app folder
 
 	git submodule add git://github.com/lecterror/cakephp-js-tests-plugin.git plugins/js_tests
 
-Or visit [http://github.com/lecterror/cakephp-js-tests-plugin][github-repo] and download the
+Or visit <http://github.com/lecterror/cakephp-js-tests-plugin/> and download the
 plugin manually to your `app/plugins/js_tests/` folder.
 
 Next, make sure you have [JSCoverage][] somewhere on your system. On Ubuntu this is as simple as:
@@ -66,11 +66,14 @@ chance I won't accept it. For example:
 
 ## Licence ##
 
-Why, [GPL][] of course.
+Multi-licensed under:
+
+* MPL <http://www.mozilla.org/MPL/MPL-1.1.html>
+* LGPL <http://www.gnu.org/licenses/lgpl.html>
+* GPL <http://www.gnu.org/licenses/gpl.html>
+
 
 [CakePHP]: http://cakephp.org/
 [JSCoverage]: http://siliconforks.com/jscoverage/
 [Vim]: http://www.vim.org/ "The Editor"
 [QUnit]: http://docs.jquery.com/Qunit
-[GPL]: http://www.gnu.org/licenses/gpl.html
-[github-repo]: http://github.com/lecterror/cakephp-js-tests-plugin
