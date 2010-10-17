@@ -11,6 +11,8 @@ code coverage.
 First, obtain the plugin. If you're using Git, run this while in your app folder:
 
 	git submodule add git://github.com/lecterror/cakephp-js-tests-plugin.git plugins/js_tests
+	git submodule init
+	git submodule update
 
 Or visit <http://github.com/lecterror/cakephp-js-tests-plugin/> and download the
 plugin manually to your `app/plugins/js_tests/` folder.
