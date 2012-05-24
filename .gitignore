@@ -1,7 +1,7 @@
-libs/core_config.php
-tests/data/js_instrumented/jscoverage*
-tests/data/js_instrumented/*.js
-tests/data/js_instrumented/*.html
-tests/data/js_instrumented/tests/*.js
-tests/data/js_instrumented/tests/*.html
-tests/data/js_instrumented/qunit/*
+Config/core.php
+Test/data/js_instrumented/jscoverage*
+Test/data/js_instrumented/*.js
+Test/data/js_instrumented/*.html
+Test/data/js_instrumented/tests/*.js
+Test/data/js_instrumented/tests/*.html
+Test/data/js_instrumented/qunit/*

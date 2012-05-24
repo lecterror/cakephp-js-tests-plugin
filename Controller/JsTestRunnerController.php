@@ -11,11 +11,14 @@
 		GPL <http://www.gnu.org/licenses/gpl.html>
 */
 
+/**
+ * @property TestHandlerComponent $TestHandler
+ */
 class JsTestRunnerController extends JsTestsAppController
 {
 	var $name = 'JsTestRunner';
 	var $uses = array();
-	var $components = array('RequestHandler', 'TestHandler');
+	var $components = array('Session', 'RequestHandler', 'JsTests.TestHandler');
 
 	function run()
 	{

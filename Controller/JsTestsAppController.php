@@ -11,8 +11,7 @@
 		GPL <http://www.gnu.org/licenses/gpl.html>
 */
 
-App::import('Lib', 'JsTests.CoreConfig');
-App::import('Core', 'Set');
+App::uses('Hash', 'Utility');
 
 class JsTestsAppController extends AppController
 {
@@ -25,7 +24,7 @@ class JsTestsAppController extends AppController
 
 		if (isset($this->passedArgs['profile']))
 		{
-			$exists = Set::check(Configure::read('JsTests.Profiles'), sprintf('%s', $this->passedArgs['profile']));
+			$exists = Hash::check(Configure::read('JsTests.Profiles'), sprintf('%s', $this->passedArgs['profile']));
 
 			if (!$exists)
 			{

@@ -16,7 +16,7 @@
 	<div class="test-menu">
 		<div class="active-test">Active test profile: <?php echo $activeProfileName; ?></div>
 		<?php
-		$testStates = Set::classicExtract($tests, '{.*}.instrumentedIsUpdated');
+		$testStates = Hash::extract($tests, '{s}.instrumentedIsUpdated');
 		$needsInstrumentation = false;
 
 		foreach ($testStates as $key => $state)

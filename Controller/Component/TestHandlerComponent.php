@@ -11,7 +11,10 @@
 		GPL <http://www.gnu.org/licenses/gpl.html>
 */
 
-class TestHandlerComponent extends Object
+App::uses('Component', 'Controller');
+App::uses('Router', 'Routing');
+
+class TestHandlerComponent extends Component
 {
 	var $name = 'TestHandler';
 	var $_tests = array();
@@ -137,7 +140,7 @@ class TestHandlerComponent extends Object
 			{
 				if ($verbose == true)
 				{
-					trigger_error($error);
+					throw new CakeException($error);
 				}
 
 				$passed = false;
@@ -184,8 +187,8 @@ class TestHandlerComponent extends Object
 				$jsbin,
 				join(' ', $noInstrument),
 				join(' ', $exclude),
-				$sourceDir,
-				$targetDir
+				str_replace('\\', '/', $sourceDir),
+				str_replace('\\', '/', $targetDir)
 			);
 
 		$output = array();
@@ -195,7 +198,12 @@ class TestHandlerComponent extends Object
 		{
 			$command = $command.' 2>&1';
 		}
+		#else
+		#{
+		#	$command = str_replace('\\', '/', $command);
+		#}
 
+		#pr($command);die;
 		if (!defined('CAKEPHP_UNIT_TEST_EXECUTION'))
 		{
 			exec($command, $output, $exitCode);

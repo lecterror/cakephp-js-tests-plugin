@@ -11,9 +11,17 @@
 		GPL <http://www.gnu.org/licenses/gpl.html>
 */
 
-App::import('Component', 'JsTests.TestHandler');
+App::uses('Controller', 'Controller');
+App::uses('Component', 'Controller');
+App::uses('CakeRequest', 'Network');
+App::uses('CakeResponse', 'Network');
+App::uses('Hash', 'Utility');
+
+App::uses('TestHandlerComponent', 'JsTests.Controller/Component');
+
+
 define('JS_TEST_PLUGIN_ROOT', App::pluginPath('JsTests'));
-define('JS_TESTDATA', JS_TEST_PLUGIN_ROOT.'tests'.DS.'data'.DS);
+define('JS_TESTDATA', JS_TEST_PLUGIN_ROOT.'Test'.DS.'data'.DS);
 
 if (!defined('CAKEPHP_UNIT_TEST_EXECUTION'))
 {
@@ -56,12 +64,51 @@ Configure::write('JsTests.Profiles',
 	)
 );
 
-class TestRunnerTestCase extends CakeTestCase
+
+class TestHandlerComponentTestController extends Controller
 {
+	public $uses = null;
+}
+
+
+class TestHandlerComponentTest extends CakeTestCase
+{
+
+	/**
+	 *
+	 * @var Controller
+	 */
+	public $Controller = null;
+
+	/**
+	 *
+	 * @var TestHandlerComponent
+	 */
+	public $Component = null;
+
+
+	public function setUp()
+	{
+		parent::setUp();
+
+		$request = new CakeRequest('/');
+		$response = new CakeResponse();
+		$this->Controller = new TestHandlerComponentTestController($request, $response);
+		$this->Controller->constructClasses();
+		$this->Component = new TestHandlerComponent($this->Controller->Components);
+	}
+
+
+	public function tearDown()
+	{
+		unset($this->Component);
+		unset($this->Controller);
+
+		parent::tearDown();
+	}
+
 	function testLoadTests()
 	{
-		$component = new TestHandlerComponent();
-
 		if (DIRECTORY_SEPARATOR != '\\' && function_exists('posix_getpwuid'))
 		{
 			$currentUser = exec('whoami');
@@ -116,52 +163,52 @@ class TestRunnerTestCase extends CakeTestCase
 				)
 			);
 
-		$result = $component->loadTests('default', $testData);
-		$diff = (Set::diff($result, $expected));
+		$result = $this->Component->loadTests('default', $testData);
+		$diff = (Hash::diff($result, $expected));
 
 		$this->assertTrue(empty($diff));
 	}
 
 	function testCheckProfile()
 	{
-		$component = new TestHandlerComponent();
-
-		$result = $component->checkProfile(Configure::read('JsTests.Profiles.default'));
+		$result = $this->Component->checkProfile(Configure::read('JsTests.Profiles.default'));
 		$this->assertTrue($result);
 
-		$result = $component->checkProfile(Configure::read('JsTests.Profiles.ze-empty'));
+		$result = $this->Component->checkProfile(Configure::read('JsTests.Profiles.ze-empty'));
 		$this->assertFalse($result);
 
-		// well this is rather silly.. why can't we say expectError(13)?
-		$this->expectError();
-		$this->expectError();
-		$this->expectError();
-		$this->expectError();
-		$this->expectError();
-		$this->expectError();
-		$this->expectError();
-		$this->expectError();
-		$this->expectError();
-		$this->expectError();
-		$this->expectError();
-		$this->expectError();
-		$this->expectError();
-		$result = $component->checkProfile(Configure::read('JsTests.Profiles.invalid'), true);
-		$this->assertFalse($result);
+		try
+		{
+			$result = $this->Component->checkProfile(Configure::read('JsTests.Profiles.invalid'), true);
+			$this->assertTrue(false);
+		}
+		catch (Exception $ex)
+		{
+			$this->assertTrue(true);
+		}
 	}
 
 	function testInstrument()
 	{
-		$component = new TestHandlerComponent();
-
 		Configure::write('JsTests.JSCoverage', array('executable' => '/usr/bin/notajscoverage'));
 
-		$this->expectError();
-		$result = $component->instrument(Configure::read('JsTests.Profiles.default'));
+		try
+		{
+			$result = $this->Component->instrument(Configure::read('JsTests.Profiles.default'));
+			$this->assertTrue(false);
+		}
+		catch (Exception $ex)
+		{
+			$this->assertTrue(true);
+		}
 
-		$this->skipIf(!file_exists('/usr/bin/jscoverage'));
-		Configure::write('JsTests.JSCoverage', array('executable' => '/usr/bin/jscoverage'));
-		$result = $component->instrument(Configure::read('JsTests.Profiles.default'));
+		#$testJSCoveragePath = '/usr/bin/jscoverage';
+		$testJSCoveragePath = 'c:\\usr\\bin\\jscoverage-0.5.1\\jscoverage.exe';
+
+		$this->skipIf(!file_exists($testJSCoveragePath));
+		Configure::write('JsTests.JSCoverage', array('executable' => $testJSCoveragePath));
+
+		$result = $this->Component->instrument(Configure::read('JsTests.Profiles.default'));
 		$expected = array('output' => array(), 'exitCode' => null);
 
 		$this->assertEqual($result, $expected);
